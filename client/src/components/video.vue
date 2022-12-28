@@ -430,6 +430,7 @@
 
           this.$nextTick(() => {
             this.$accessor.video.play()
+            this.$accessor.video.setMuted(false)
           })
         }
       })

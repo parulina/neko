@@ -6,13 +6,18 @@
     <template v-else>
       <main class="neko-main">
         <div v-if="!hideControls" class="header-container">
+		  <neko-controls :shakeKbd="shakeKbd" />
           <neko-header />
         </div>
+		<div v-if="hideControls" class="header-container">
+		  <neko-controls :shakeKbd="shakeKbd" />
+		</div>
         <div class="video-container">
           <neko-video ref="video" :hideControls="hideControls" @control-attempt="controlAttempt" />
         </div>
         <div v-if="!hideControls" class="room-container">
           <neko-members />
+		  <!--
           <div class="room-menu">
             <div class="settings">
               <neko-menu />
@@ -24,6 +29,7 @@
               <neko-emotes />
             </div>
           </div>
+		  -->
         </div>
       </main>
       <neko-side v-if="!hideControls && side" />
@@ -184,15 +190,12 @@
     onHideControls(enabled: boolean) {
       if (enabled) {
         this.$accessor.video.setMuted(false)
-        this.$accessor.settings.setSound(false)
+        this.$accessor.settings.setSound(true)
       }
     }
 
     controlAttempt() {
-      if (this.shakeKbd || this.$accessor.remote.hosted) return
-
-      this.shakeKbd = true
-      window.setTimeout(() => (this.shakeKbd = false), 5000)
+	  return
     }
 
     get about() {
